@@ -7,10 +7,6 @@
   "capabilities": [
     "onoff"
   ],
-  "platforms": [
-    "local",
-    "cloud"
-  ],
   "connectivity": [
     "infrared"
   ],
