@@ -1,0 +1,18 @@
+{
+  "typescript.format.enable": true,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": false,
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "typescript.preferences.quoteStyle": "single",
+    "editor.tabSize": 2,
+    "editor.wordWrapColumn": 120
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "cSpell.language": "nb-NO,en-GB",
+  "cSpell.ignoreRegExpList": [
+    "/from\\s+(['\"]).*\\1/"
+  ]
+}

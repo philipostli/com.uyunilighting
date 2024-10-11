@@ -1,0 +1,42 @@
+{
+  "id": "com.uyunilighting",
+  "version": "1.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "platforms": [
+    "local",
+    "cloud"
+  ],
+  "brandColor": "#a9ab90",
+  "name": {
+    "en": "Uyuni"
+  },
+  "description": {
+    "en": "Adds support for Uyuni candlelight's",
+    "no": "Legger til støtte for Uyuni batteridrevne lys"
+  },
+  "category": [
+    "lights"
+  ],
+  "permissions": [
+    "homey:wireless:ir"
+  ],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Philip Østli",
+    "email": "philip.ostli@outlook.com"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Philip Østli"
+      }
+    ]
+  },
+  "homepage": "https://uyunilighting.com",
+  "support": "https://github.com/philipostli/com.uyunilighting/issues"
+}

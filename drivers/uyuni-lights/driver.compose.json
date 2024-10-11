@@ -1,0 +1,44 @@
+{
+  "name": {
+    "en": "Uyuni Lights",
+    "no": "Uyuni lys"
+  },
+  "class": "light",
+  "capabilities": [
+    "onoff"
+  ],
+  "platforms": [
+    "local",
+    "cloud"
+  ],
+  "connectivity": [
+    "infrared"
+  ],
+  "uiQuickAction": true,
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "infrared": {
+    "satelliteMode": true
+  },
+  "energy": {
+        "batteries": [
+            "INTERNAL"
+        ]
+    },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}
