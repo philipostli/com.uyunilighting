@@ -1,7 +1,6 @@
-import Homey from 'homey';
 const { RFDevice } = require('homey-rfdriver');
 
-module.exports = class MyDevice extends RFDevice {
+module.exports = class UyuniRemoteDevice extends RFDevice {
 
   static CAPABILITIES = {
     onoff: {
@@ -16,7 +15,7 @@ module.exports = class MyDevice extends RFDevice {
    * onInit is called when the device is initialized.
    */
   async onInit() {
-    this.log('MyDevice has been initialized');
+    this.log('UyuniRemoteDevice has been initialized');
 
     this.registerCapabilityListener('onoff', async (state: boolean) => {
       if (state) 
@@ -30,7 +29,7 @@ module.exports = class MyDevice extends RFDevice {
    * onAdded is called when the user adds the device, called just after pairing.
    */
   async onAdded() {
-    this.log('MyDevice has been added');
+    this.log('UyuniRemoteDevice has been added');
   }
 
   /**
@@ -50,7 +49,7 @@ module.exports = class MyDevice extends RFDevice {
     newSettings: { [key: string]: boolean | string | number | undefined | null };
     changedKeys: string[];
   }): Promise<string | void> {
-    this.log("MyDevice settings where changed");
+    this.log("UyuniRemoteDevice settings where changed");
   }
 
   /**
@@ -59,14 +58,14 @@ module.exports = class MyDevice extends RFDevice {
    * @param {string} name The new name
    */
   async onRenamed(name: string) {
-    this.log('MyDevice was renamed');
+    this.log('UyuniRemoteDevice was renamed');
   }
 
   /**
    * onDeleted is called when the user deleted the device.
    */
   async onDeleted() {
-    this.log('MyDevice has been deleted');
+    this.log('UyuniRemoteDevice has been deleted');
   }
 
 };
