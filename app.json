@@ -5,7 +5,8 @@
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "platforms": [
-    "local"
+    "local",
+    "cloud"
   ],
   "brandColor": "#a9ab90",
   "name": {
@@ -94,6 +95,10 @@
       "class": "light",
       "capabilities": [
         "onoff"
+      ],
+      "platforms": [
+        "local",
+        "cloud"
       ],
       "connectivity": [
         "infrared"
