@@ -18,6 +18,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
-    "homey-rfdriver": "^3.3.2"
+    "homey-rfdriver": "^3.3.2",
+    "typescript": "^5.6.3"
   }
 }
