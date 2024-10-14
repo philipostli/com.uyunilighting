@@ -98,6 +98,9 @@
       "connectivity": [
         "infrared"
       ],
+      "platforms": [
+        "local"
+      ],
       "uiQuickAction": true,
       "images": {
         "small": "/drivers/uyuni-lights/assets/images/small.png",

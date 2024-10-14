@@ -10,6 +10,9 @@
   "connectivity": [
     "infrared"
   ],
+  "platforms": [
+    "local"
+  ],
   "uiQuickAction": true,
   "images": {
     "small": "{{driverAssetsPath}}/images/small.png",
