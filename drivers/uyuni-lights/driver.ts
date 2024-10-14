@@ -2,7 +2,7 @@ import PairSession from 'homey/lib/PairSession';
 const {RFDriver} = require('homey-rfdriver');
 const Signal = require('./signal');
 
-module.exports = class MyDriver extends RFDriver {
+module.exports = class UyuniRemoteDriver extends RFDriver {
 
   static SIGNAL = Signal;
 
@@ -10,12 +10,11 @@ module.exports = class MyDriver extends RFDriver {
    * onInit is called when the driver is initialized.
    */
   async onInit() {
-    this.log('MyDriver has been initialized');
+    this.log('UyuniRemoteDriver has been initialized');
   }
 
 
   async onPair(session: PairSession) {
-
     session.setHandler('list_devices', this.listDevices.bind(this));
   }
 
@@ -26,7 +25,6 @@ module.exports = class MyDriver extends RFDriver {
    * This should return an array with the data of devices that are available for pairing.
    */
   async listDevices(data: any): Promise<any> {
-    this.homey.log('listDevices called');
     return [
       // Example device data, note that `store` is optional
       {
