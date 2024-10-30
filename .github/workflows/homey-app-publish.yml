@@ -9,12 +9,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Publish Homey App
-        uses: athombv/github-action-homey-app-publish@master
-        id: publish
+      - name: 'Create env file'
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.3
         with:
-          personal_access_token: ${{ secrets.HOMEY_PAT }}
+          name: "env.json"
+          json: '{ "TEST" = "1" }'
+          
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
-      - name: URL
-        run: |
-          echo "Manage your app at ${{ steps.publish.outputs.url }}." >> $GITHUB_STEP_SUMMARY
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --audit=false
+
+      - name: App needs to pass verified level validation
+        run: HOMEY_HEADLESS="1" HOMEY_PAT="${{ secrets.HOMEY_PAT }}" npx homey app publish
