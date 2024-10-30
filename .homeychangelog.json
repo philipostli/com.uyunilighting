@@ -1,6 +1,9 @@
 {
   "1.0.0": {
-      "en": "Initial release",
-      "no": "Første utgave"
+    "en": "Initial release",
+    "no": "Første utgave"
+  },
+  "1.1.0": {
+    "en": "Added timer"
   }
 }
