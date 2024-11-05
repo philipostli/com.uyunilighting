@@ -14,12 +14,12 @@ module.exports = class MyApp extends Homey.App {
 
 
     this.homey.flow.getActionCard('turn-on').registerRunListener(async (args, state) => {
-      await uyuniSignal.cmd('POWER_ON');
+      this.setOnOff(true);
       return; 
     })
 
     this.homey.flow.getActionCard('turn-off').registerRunListener(async (args, state) => {
-      await uyuniSignal.cmd('POWER_OFF');
+      this.setOnOff(false);
       return; 
     })
 
@@ -56,4 +56,10 @@ module.exports = class MyApp extends Homey.App {
 
   }
 
+  private async setOnOff(isOn : boolean) {
+    this.homey.drivers.getDriver('uyuni-lights').getDevices().forEach(device => {
+      device.setCapabilityValue('onoff', isOn);
+      device.triggerCapabilityListener('onoff', isOn);
+    })
+  }
 }
