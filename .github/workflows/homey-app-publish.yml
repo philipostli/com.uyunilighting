@@ -16,49 +16,40 @@ on:
         description: Changelog
         required: true
 
-# Needed in order to push the commit and create a release
-permissions:
-  contents: write        
-
 jobs:
   main:
-    name: Publish Homey App
+    name: Build Homey release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Publish Homey App
-        uses: athombv/github-action-homey-app-publish@master
-        id: publish
-        with:
-          personal_access_token: ${{ secrets.HOMEY_PAT }}
-
-      - name: URL
-        run: |
-          echo "Manage your app at ${{ steps.publish.outputs.url }}." >> $GITHUB_STEP_SUMMARY
-    name: Update Homey App Version
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Update Homey App Version
+      - name: Update app version
         uses: athombv/github-action-homey-app-version@master
         id: update_app_version
         with:
           version: ${{ inputs.version }}
           changelog: ${{ inputs.changelog }}
 
-      - name: Commit & Push
+      - name: Commit and push generated version
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update Homey App Version to v${{ steps.update_app_version.outputs.version }}
+          tagging_message: v${{ steps.update_app_version.outputs.version }}
+
+      - name: Publish app
+        uses: athombv/github-action-homey-app-publish@master
+        id: publish
+        with:
+          personal_access_token: ${{ secrets.HOMEY_PAT }}
+
+      - name: Add manage URL to job summary
         run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add -A
-          git commit -m "Update Homey App Version to v${{ steps.update_app_version.outputs.version }}"
-          git tag "v${{ steps.update_app_version.outputs.version }}"
-
-          git push origin HEAD --tags
-          gh release create "v${{ steps.update_app_version.outputs.version }}" -t "v${{ steps.update_app_version.outputs.version }}" --notes "" --generate-notes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_TOKEN: ${{ github.token }}
+          echo "App release to be managed at ${{ steps.publish.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          
+      - name: Generate Github Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ inputs.changelog }}
+          generate_release_notes: true
+          make_latest: true
+          tag_name: v${{ steps.update_app_version.outputs.version }}
