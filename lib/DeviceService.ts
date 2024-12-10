@@ -20,14 +20,14 @@ export class DeviceService {
       device.setCapabilityValue('onoff', true);
     })
     this.task = cron.schedule('* * * * *', () => this.updateTimer());
-    this.homey.log("Timer activated " + duration.toString());
+    // this.homey.log("Timer activated " + duration.toString());
   }
 
   async updateTimer() {
     if (this.taskStopped) return;
     this.homey.drivers.getDriver('uyuni-lights').getDevices().forEach( (device: Device) => {
       device.setCapabilityValue('meter_timer', --this.timer);
-      this.homey.log('...timer is ' + this.timer);
+      // this.homey.log('...timer is ' + this.timer);
       if (this.timer <= 0){
         this.deleteTimer();
         device.triggerCapabilityListener('onoff', false);
@@ -40,7 +40,7 @@ export class DeviceService {
     if (this.task){
       this.task.stop();
       this.taskStopped = true;
-      this.homey.log("Timer stopped");
+      // this.homey.log("Timer stopped");
     }
     this.timer = 0;
     this.homey.drivers.getDriver('uyuni-lights').getDevices().forEach( (device: Device) => {
