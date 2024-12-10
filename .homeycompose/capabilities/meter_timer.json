@@ -1,0 +1,11 @@
+{
+  "type": "number",
+  "title": { "en": "Timer", "no": "Nedtelling" },
+  "getable": true,
+  "setable": false,
+  "units": { "en": "min" },
+  "min": 0,
+  "max": 600,
+  "step": 1,
+  "icon": "/assets/timer.svg"
+}

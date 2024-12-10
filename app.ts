@@ -1,14 +1,18 @@
 'use strict';
 
 import Homey from 'homey';
+import {DeviceService} from './lib/DeviceService';
 
 module.exports = class MyApp extends Homey.App {
+  deviceService!: DeviceService;
 
   /**
    * onInit is called when the app is initialized.
    */
   async onInit() {
     this.log('MyApp has been initialized');
+
+    this.deviceService = new DeviceService(this.homey);
 
     const uyuniSignal = this.homey.rf.getSignalInfrared('uyuni');
 
@@ -35,7 +39,7 @@ module.exports = class MyApp extends Homey.App {
     // })
 
     this.homey.flow.getActionCard('timer-4h').registerRunListener(async (args, state) => {
-      await uyuniSignal.cmd('TIMER_4H');
+      await this.setTimer(4);
       return; 
     })
 
@@ -56,10 +60,26 @@ module.exports = class MyApp extends Homey.App {
 
   }
 
-  private async setOnOff(isOn : boolean) {
+  private async setOnOff(setOn : boolean) {
     this.homey.drivers.getDriver('uyuni-lights').getDevices().forEach(device => {
-      device.setCapabilityValue('onoff', isOn);
-      device.triggerCapabilityListener('onoff', isOn);
+      device.setCapabilityValue('onoff', setOn);
+      device.triggerCapabilityListener('onoff', setOn);
+      if (!setOn)
+        device.setCapabilityValue('timer_4h', false);
     })
   }
+
+  private async setTimer(duration : number) {
+    this.homey.drivers.getDriver('uyuni-lights').getDevices().forEach(device => {
+      switch(duration) {
+        case 4:            
+          device.setCapabilityValue('timer_4h', true);
+          device.triggerCapabilityListener('timer_4h', true);
+          break;
+        default:
+          break;
+      }
+    })
+  }
+
 }
