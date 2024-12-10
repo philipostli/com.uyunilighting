@@ -38,7 +38,7 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
       if (startTimer){
         this.triggerCapabilityListener('onoff', true); 
         await this.driver.cmd('TIMER_4H');
-        await this.deviceService.setTimer(4);
+        await this.deviceService.setTimer(4*60);
       } else
         this.deviceService.deleteTimer();
     })
