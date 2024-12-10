@@ -1,6 +1,8 @@
 const { RFDevice } = require('homey-rfdriver');
+import {DeviceService} from '../../lib/DeviceService';
 
 module.exports = class UyuniRemoteDevice extends RFDevice {
+  deviceService!: DeviceService;
 
   static CAPABILITIES = {
     onoff: {
@@ -17,12 +19,35 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
   async onInit() {
     this.log('UyuniRemoteDevice has been initialized');
 
+    this.deviceService = new DeviceService(this.homey);
+
+    this.migrateCapabilities();
+
     this.registerCapabilityListener('onoff', async (state: boolean) => {
-      if (state) 
+      if (state){
         await this.driver.cmd('POWER_ON');
-      else
+        this.homey.log('UyuniRemoteDevice is set on');
+      }else{
         await this.driver.cmd('POWER_OFF');
+        this.homey.log('UyuniRemoteDevice is set off');
+        this.triggerCapabilityListener('timer_4h', false); 
+      }
     })
+
+    this.registerCapabilityListener('timer_4h', async (startTimer: boolean) => {
+      if (startTimer){
+        this.triggerCapabilityListener('onoff', true); 
+        await this.driver.cmd('TIMER_4H');
+        await this.deviceService.setTimer(4);
+      } else
+        this.deviceService.deleteTimer();
+    })
+  }
+
+  
+  private async migrateCapabilities() {
+    if (!this.hasCapability('meter_timer'))  await this.addCapability('meter_timer');
+    if (!this.hasCapability('timer_4h')) await this.addCapability('timer_4h');
   }
 
   /**
@@ -66,6 +91,8 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
    */
   async onDeleted() {
     this.log('UyuniRemoteDevice has been deleted');
+    this.deviceService.deleteTimer();
   }
+
 
 };

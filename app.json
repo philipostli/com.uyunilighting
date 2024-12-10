@@ -94,7 +94,8 @@
       },
       "class": "light",
       "capabilities": [
-        "onoff"
+        "onoff",
+        "meter_timer"
       ],
       "connectivity": [
         "infrared"
@@ -132,6 +133,35 @@
       "id": "uyuni-lights"
     }
   ],
+  "capabilities": {
+    "meter_timer": {
+      "type": "number",
+      "title": {
+        "en": "Timer",
+        "no": "Nedtelling"
+      },
+      "getable": true,
+      "setable": false,
+      "units": {
+        "en": "min"
+      },
+      "min": 0,
+      "max": 600,
+      "step": 1,
+      "icon": "/assets/timer.svg"
+    },
+    "timer_4h": {
+      "type": "boolean",
+      "getable": true,
+      "setable": true,
+      "uiComponent": "button",
+      "title": {
+        "en": "4H timer",
+        "no": "4H timer"
+      },
+      "icon": "/assets/timer.svg"
+    }
+  },
   "signals": {
     "ir": {
       "uyuni": {
