@@ -25,10 +25,10 @@
     "satelliteMode": true
   },
   "energy": {
-        "batteries": [
-            "INTERNAL"
-        ]
-    },
+    "batteries": [
+      "INTERNAL"
+    ]
+  },
   "pair": [
     {
       "id": "list_devices",
