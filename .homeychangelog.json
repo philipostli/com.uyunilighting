@@ -11,5 +11,8 @@
   },
   "1.2.1": {
     "en": "Added timer - correction"
+  },
+  "1.2.2": {
+    "en": "Fixed controlling lights without device added"
   }
 }
