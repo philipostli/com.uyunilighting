@@ -58,6 +58,14 @@ module.exports = class MyApp extends Homey.App {
       return; 
     })
 
+    this.homey.flow.getConditionCard('timer-is-active').registerRunListener(async (args, state) => {
+      let isActive = false;
+      this.homey.drivers.getDriver('uyuni-lights').getDevices().forEach(device => {
+        isActive = (device.getCapabilityValue('meter_timer') > 0)
+        // this.homey.log('isActive' + isActive);
+      });
+      return isActive;
+    })
   }
 
   private async setOnOff(setOn : boolean) {

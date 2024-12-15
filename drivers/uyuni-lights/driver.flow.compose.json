@@ -1,0 +1,16 @@
+{
+  "conditions": [
+    {
+      "id": "timer-is-active",
+      "title": {
+        "en": "Timer is active",
+        "no": "Nedtelling er aktiv"
+      },
+      "hint": {
+        "en": "One of the timers are on",
+        "no": "En av nedtellingene er aktiv"
+      },
+      "$filter": "capabilities=meter_timer"
+    }
+  ]
+}
