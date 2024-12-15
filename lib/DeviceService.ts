@@ -12,6 +12,7 @@ export class DeviceService {
   }
 
   async setTimer(duration: number) {
+    this.deleteTimer();
     this.timer = duration;
     this.taskStopped = false;
     this.homey.drivers.getDriver('uyuni-lights').getDevices().forEach( (device: Device) => {
