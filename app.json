@@ -42,19 +42,6 @@
   "support": "https://github.com/philipostli/com.uyunilighting/issues",
   "homeyCommunityTopicId": 118286,
   "flow": {
-    "conditions": [
-      {
-        "title": {
-          "en": "Timer is active",
-          "no": "Nedtelling er aktiv"
-        },
-        "hint": {
-          "en": "One of the timers are on",
-          "no": "En av nedtellingene er aktiv"
-        },
-        "id": "timer-is-active"
-      }
-    ],
     "actions": [
       {
         "title": {
@@ -97,6 +84,26 @@
           "no": "Slå på"
         },
         "id": "turn-on"
+      }
+    ],
+    "conditions": [
+      {
+        "id": "timer-is-active",
+        "title": {
+          "en": "Timer is active",
+          "no": "Nedtelling er aktiv"
+        },
+        "hint": {
+          "en": "One of the timers are on",
+          "no": "En av nedtellingene er aktiv"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uyuni-lights&capabilities=meter_timer"
+          }
+        ]
       }
     ]
   },
