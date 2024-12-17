@@ -22,7 +22,7 @@
     "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
   },
   "infrared": {
-    "satelliteMode": true
+    "satelliteMode": false
   },
   "energy": {
     "batteries": [
