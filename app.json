@@ -155,6 +155,34 @@
       "id": "uyuni-lights"
     }
   ],
+  "widgets": {
+    "lights": {
+      "name": {
+        "en": "Uyuni lights"
+      },
+      "height": 300,
+      "settings": [],
+      "api": {
+        "getSomething": {
+          "method": "GET",
+          "path": "/"
+        },
+        "addSomething": {
+          "method": "POST",
+          "path": "/"
+        },
+        "updateSomething": {
+          "method": "PUT",
+          "path": "/:id"
+        },
+        "deleteSomething": {
+          "method": "DELETE",
+          "path": "/:id"
+        }
+      },
+      "id": "lights"
+    }
+  },
   "capabilities": {
     "meter_timer": {
       "type": "number",

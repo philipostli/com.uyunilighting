@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <link href="./input.css" rel="stylesheet">
+    <script type="module" src="./index.js"></script>
+    <script src="./bundle.js"></script>
+  </head>
+  <body class="homey-widget homey-dark-mode">
+
+
+    <!-- <label>
+      Material 3
+      <md-checkbox checked></md-checkbox>
+    </label>
+    
+    <md-outlined-button style="padding: var(--homey-su-4)">Back</md-outlined-button>
+    <md-filled-button style="padding: var(--homey-su-4)">Next</md-filled-button> -->
+    <br/>
+    <label>
+      On/off
+      <md-switch icons selected></md-switch>
+    </label>
+
+    <img src="homey-logo.png" alt="Homey logo" class="custom-image-class" />
+    <p class="homey-text-bold homey-text-align-center">Uyuni lights.</p>
+
+    <script type="text/javascript">
+      function onHomeyReady(Homey) {
+        Homey.ready();
+
+        // View the settings the user provided if your widget has settings.
+        console.log('Widget settings:', Homey.getSettings());
+
+        // Fetch something from your app.
+        Homey.api('GET', '/', {})
+          .then((result) => {
+            console.log(result);
+          })
+          .catch(console.error);
+      }
+    </script>
+  </body>
+</html>
