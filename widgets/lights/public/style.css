@@ -1,0 +1,64 @@
+.homey-widget.homey-dark-mode {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+h1.homey-text-bold {
+    margin: 0;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.switch-container {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.switch-container.hidden {
+    display: none;
+}
+
+.error-message {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    color: #000000;
+    font-size: 16px;
+    display: none;
+}
+
+.error-message.visible {
+    display: block;
+}
+
+md-switch {
+    --md-sys-color-primary: #a9ab90;
+    --md-sys-color-on-primary: #dfe2b4;
+    /* --md-switch-selected-icon-color: #000;
+    --md-switch-unselected-icon-color: #a9ab90; */
+    --md-switch-selected-hover-state-layer-color: #a9ab90;
+    --md-switch-selected-pressed-state-layer-color: #a9ab90;
+    --md-switch-selected-pressed-handle-color: #dfe2b4;
+    --md-switch-selected-hover-handle-color: #a9ab90;
+    --md-switch-selected-focus-handle-color: #dfe2b4;
+    --md-switch-unselected-hover-state-layer-color: #a9ab90;
+    --md-switch-unselected-pressed-state-layer-color: #a9ab90;
+}
+
+h2 {
+    margin: 0;
+    color: #000000;
+    font-size: 14px;
+}

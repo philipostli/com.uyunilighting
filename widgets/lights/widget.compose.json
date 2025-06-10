@@ -3,23 +3,44 @@
     "en": "Uyuni lights"
   },
   "height": 300,
-  "settings": [],
+  "settings": [
+    {
+      "id": "background",
+      "type": "dropdown",
+      "title": {
+        "en": "Background image"
+      },
+      "value": "rustic",
+      "values": [
+        {
+          "id": "rustic",
+          "title": {
+            "en": "Rustic Pillar Candles"
+          }
+        },
+        {
+          "id": "dark",
+          "title": {
+            "en": "Classic Candles on Dark"
+          }
+        },
+        {
+          "id": "wood",
+          "title": {
+            "en": "Classic Candles on Wood"
+          }
+        }
+      ]
+    }
+  ],
   "api": {
-    "getSomething": {
+    "getState": {
       "method": "GET",
       "path": "/"
     },
-    "addSomething": {
-      "method": "POST",
-      "path": "/"
-    },
-    "updateSomething": {
+    "turnOn": {
       "method": "PUT",
-      "path": "/:id"
-    },
-    "deleteSomething": {
-      "method": "DELETE",
-      "path": "/:id"
+      "path": "/"
     }
   }
 }

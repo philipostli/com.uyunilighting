@@ -1,41 +1,95 @@
 <html>
   <head>
-    <link href="./input.css" rel="stylesheet">
-    <script type="module" src="./index.js"></script>
+    <link href="./style.css" rel="stylesheet">
     <script src="./bundle.js"></script>
   </head>
   <body class="homey-widget homey-dark-mode">
 
+    <!-- <h1 class="homey-text-bold homey-text-align-center">Uyuni lights.</h1> -->
 
-    <!-- <label>
-      Material 3
-      <md-checkbox checked></md-checkbox>
-    </label>
-    
-    <md-outlined-button style="padding: var(--homey-su-4)">Back</md-outlined-button>
-    <md-filled-button style="padding: var(--homey-su-4)">Next</md-filled-button> -->
-    <br/>
-    <label>
-      On/off
-      <md-switch icons selected></md-switch>
-    </label>
+    <div class="switch-container">
+      <md-switch icons selected id="lightSwitch"></md-switch>
+      <h2 id="switchState">ON</h2>
+    </div>
 
-    <img src="homey-logo.png" alt="Homey logo" class="custom-image-class" />
-    <p class="homey-text-bold homey-text-align-center">Uyuni lights.</p>
+    <div class="error-message" id="errorMessage">Please add a device</div>
 
     <script type="text/javascript">
       function onHomeyReady(Homey) {
-        Homey.ready();
+        Homey.ready({ height: 150 });
 
-        // View the settings the user provided if your widget has settings.
-        console.log('Widget settings:', Homey.getSettings());
+        const switchElement = document.getElementById('lightSwitch');
+        const stateElement = document.getElementById('switchState');
+        const containerElement = document.querySelector('.switch-container');
+        const errorElement = document.getElementById('errorMessage');
+        const bodyElement = document.querySelector('.homey-widget');
 
-        // Fetch something from your app.
-        Homey.api('GET', '/', {})
-          .then((result) => {
-            console.log(result);
-          })
-          .catch(console.error);
+        // Set background from settings and adjust text colors
+        const settings = Homey.getSettings();
+        if (settings.background) {
+          bodyElement.style.backgroundImage = `url('${settings.background}.png')`;
+          
+          // Change text color for dark backgrounds
+          if (settings.background === 'dark' || settings.background === 'wood') {
+            stateElement.style.color = '#f3e5ab';
+            errorElement.style.color = '#f3e5ab';
+          }
+        }
+
+        // Set initial state
+        stateElement.textContent = switchElement.selected ? 'ON' : 'OFF';
+
+        // Listen for changes
+        switchElement.addEventListener('change', (e) => {
+          const isOn = e.target.selected;
+          stateElement.textContent = isOn ? 'ON' : 'OFF';
+          turnOn(isOn);
+        });
+
+        function turnOn(state) {
+          Homey.api('PUT', '/', { state })
+            .then(result => {
+              if (result.status !== 'ok') {
+                console.log('Error:', result.message);
+                containerElement.classList.add('hidden');
+                errorElement.classList.add('visible');
+              }
+            })
+            .catch(error => {
+              console.error(error);
+              containerElement.classList.add('hidden');
+              errorElement.classList.add('visible');
+            });
+        }
+
+        function getState() {
+          Homey.api('GET', '/')
+            .then(data => {
+              if (data.status !== 'ok') {
+                console.log('Error:', data.message);
+                containerElement.classList.add('hidden');
+                errorElement.classList.add('visible');
+                return;
+              }
+              
+              containerElement.classList.remove('hidden');
+              errorElement.classList.remove('visible');
+              const state = data.message;
+              if (switchElement.selected !== state) {
+                switchElement.selected = state;
+                stateElement.textContent = state ? 'ON' : 'OFF';
+              }
+            })
+            .catch(error => {
+              console.error(error);
+              containerElement.classList.add('hidden');
+              errorElement.classList.add('visible');
+            });
+        }
+
+        // Fetch initial state and start polling
+        getState();
+        setInterval(getState, 5000);
       }
     </script>
   </body>

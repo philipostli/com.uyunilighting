@@ -1,28 +1,42 @@
 'use strict';
+import { Device } from 'homey';
 
 module.exports = {
-  async getSomething({ homey, query }) {
-    // you can access query parameters like "/?foo=bar" through `query.foo`
+  async getState({ homey, query }) {
+    const devices = homey.drivers.getDriver('uyuni-lights').getDevices();
+    let state;
+    if (devices.length == 0) {
+      return {
+        status: 'error',
+        message: 'No devices found',
+      };
+    } else {
+      state = devices[0].getCapabilityValue('onoff');
+    }
 
-    // you can access the App instance through homey.app
-    // const result = await homey.app.getSomething();
-    // return result;
-
-    // perform other logic like mapping result data
-
-    return 'Hello from App';
+    return {
+      status: 'ok',
+      message: state,
+    };
   },
 
-  async addSomething({ homey, body }) {
-    // access the post body and perform some action on it.
-    return homey.app.addSomething(body);
+  async turnOn({ homey, params, body }) {
+    const devices = homey.drivers.getDriver('uyuni-lights').getDevices();
+    if (devices.length == 0) {
+      return {
+        status: 'error',
+        message: 'No devices found',
+      };
+    } else {
+      devices[0].setCapabilityValue('onoff', body.state);
+    }
+
+    devices[0].triggerCapabilityListener('onoff', body.state);
+
+    return {
+      status: 'ok',
+      message: 'State changed',
+    };
   },
 
-  async updateSomething({ homey, params, body }) {
-    return homey.app.setSomething(body);
-  },
-
-  async deleteSomething({ homey, params }) {
-    return homey.app.deleteSomething(params.id);
-  },
 };
