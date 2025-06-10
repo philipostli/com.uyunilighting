@@ -23,6 +23,7 @@
         const containerElement = document.querySelector('.switch-container');
         const errorElement = document.getElementById('errorMessage');
         const bodyElement = document.querySelector('.homey-widget');
+        const $selectedDeviceId = Homey.getDeviceIds()[0];
 
         // Set background from settings and adjust text colors
         const settings = Homey.getSettings();
@@ -47,7 +48,7 @@
         });
 
         function turnOn(state) {
-          Homey.api('PUT', '/', { state })
+          Homey.api('PUT', `/?deviceId=${$selectedDeviceId}`, { state })
             .then(result => {
               if (result.status !== 'ok') {
                 console.log('Error:', result.message);
@@ -63,7 +64,7 @@
         }
 
         function getState() {
-          Homey.api('GET', '/')
+          Homey.api('GET', `/?deviceId=${$selectedDeviceId}`)
             .then(data => {
               if (data.status !== 'ok') {
                 console.log('Error:', data.message);

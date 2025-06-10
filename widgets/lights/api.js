@@ -3,7 +3,9 @@ import { Device } from 'homey';
 
 module.exports = {
   async getState({ homey, query }) {
+    const selectedDeviceId = query.deviceId;
     const devices = homey.drivers.getDriver('uyuni-lights').getDevices();
+    const selectedDevice = devices.find(device => device.getId() === selectedDeviceId);
     let state;
     if (devices.length == 0) {
       return {
@@ -11,7 +13,7 @@ module.exports = {
         message: 'No devices found',
       };
     } else {
-      state = devices[0].getCapabilityValue('onoff');
+      state = selectedDevice.getCapabilityValue('onoff');
     }
 
     return {
@@ -20,18 +22,20 @@ module.exports = {
     };
   },
 
-  async turnOn({ homey, params, body }) {
+  async turnOn({ homey, query, body }) {
+    const selectedDeviceId = query.deviceId;
     const devices = homey.drivers.getDriver('uyuni-lights').getDevices();
+    const selectedDevice = devices.find(device => device.getId() === selectedDeviceId);
     if (devices.length == 0) {
       return {
         status: 'error',
         message: 'No devices found',
       };
     } else {
-      devices[0].setCapabilityValue('onoff', body.state);
+      selectedDevice.setCapabilityValue('onoff', body.state);
     }
 
-    devices[0].triggerCapabilityListener('onoff', body.state);
+    selectedDevice.triggerCapabilityListener('onoff', body.state);
 
     return {
       status: 'ok',

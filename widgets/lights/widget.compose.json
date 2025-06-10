@@ -2,7 +2,14 @@
   "name": {
     "en": "Uyuni lights"
   },
-  "height": 300,
+  "height": 150,
+  "devices": {
+    "type": "app",
+    "singular": true,
+    "filter": {
+      "capabilities": "onoff"
+    }
+  },
   "settings": [
     {
       "id": "background",
