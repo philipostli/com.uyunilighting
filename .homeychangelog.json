@@ -1,6 +1,24 @@
 {
   "1.0.0": {
-      "en": "Initial release",
-      "no": "Første utgave"
+    "en": "Initial release",
+    "no": "Første utgave"
+  },
+  "1.1.2": {
+    "en": "Added timer"
+  },
+  "1.2.0": {
+    "en": "Added timer"
+  },
+  "1.2.1": {
+    "en": "Added timer - correction"
+  },
+  "1.2.2": {
+    "en": "Fixed controlling lights without device added"
+  },
+  "1.3.0": {
+    "en": "Added satellite mode"
+  },
+  "1.3.1": {
+    "en": "Add as many remotes as you like"
   }
 }

@@ -8,12 +8,11 @@
     "onoff",
     "meter_timer"
   ],
-  "platforms": [
-    "local",
-    "cloud"
-  ],
   "connectivity": [
     "infrared"
+  ],
+  "platforms": [
+    "local"
   ],
   "uiQuickAction": true,
   "images": {

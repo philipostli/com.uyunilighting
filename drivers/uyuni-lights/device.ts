@@ -13,6 +13,10 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
     dim_down: 'DIM_DOWN'
   }
 
+  private async sendCommand(command: string) {
+    await this.driver.cmd(command, { device: this });
+  }
+
   /**
    * onInit is called when the device is initialized.
    */
@@ -25,12 +29,12 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
 
     this.registerCapabilityListener('onoff', async (state: boolean) => {
       if (state) {
-        await this.driver.cmd('POWER_ON');
+        await this.sendCommand('POWER_ON');
         this.homey.log('UyuniRemoteDevice is set on');
       } else {
-        await this.driver.cmd('POWER_OFF');
+        await this.sendCommand('POWER_OFF');
         this.homey.log('UyuniRemoteDevice is set off');
-        this.triggerCapabilityListener('timer_4h', false);
+        this.triggerCapabilityListener('timer_4h', false); 
       }
     })
 
@@ -38,19 +42,16 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
       const timerDuration = 4 * 60;
       if (startTimer) {
         this.triggerCapabilityListener('onoff', true);
-        await this.driver.cmd('TIMER_4H');
+        await this.sendCommand('TIMER_4H');
         await this.deviceService.setTimer(timerDuration);
       } else
         this.deviceService.deleteTimer();
     })
-
-
-
   }
 
-
+  
   private async migrateCapabilities() {
-    if (!this.hasCapability('meter_timer')) await this.addCapability('meter_timer');
+    if (!this.hasCapability('meter_timer'))  await this.addCapability('meter_timer');
     if (!this.hasCapability('timer_4h')) await this.addCapability('timer_4h');
   }
 
