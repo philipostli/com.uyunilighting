@@ -19,7 +19,10 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "@material/web": "^2.2.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "homey-rfdriver": "^3.3.2",
-    "node-cron": "^3.0.3"
+    "node-cron": "^3.0.3",
+    "rollup": "^4.29.0"
   }
 }

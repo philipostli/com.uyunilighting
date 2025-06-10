@@ -3,10 +3,9 @@
   "getable": true,
   "setable": true,
   "uiComponent": "button",
-  "title":
-  {
-      "en": "4H timer",
-      "no": "4H timer"
+  "title": {
+    "en": "4H timer",
+    "no": "4H timer"
   },
   "icon": "/assets/timer.svg"
 }

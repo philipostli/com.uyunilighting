@@ -1,4 +1,4 @@
-const { RFDevice } = require('homey-rfdriver');
+const {RFDevice} = require('homey-rfdriver');
 import {DeviceService} from '../../lib/DeviceService';
 
 module.exports = class UyuniRemoteDevice extends RFDevice {
@@ -75,8 +75,8 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
     newSettings,
     changedKeys,
   }: {
-    oldSettings: { [key: string]: boolean | string | number | undefined | null };
-    newSettings: { [key: string]: boolean | string | number | undefined | null };
+    oldSettings: {[key: string]: boolean | string | number | undefined | null};
+    newSettings: {[key: string]: boolean | string | number | undefined | null};
     changedKeys: string[];
   }): Promise<string | void> {
     this.log("UyuniRemoteDevice settings where changed");
