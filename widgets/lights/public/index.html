@@ -7,6 +7,8 @@
 
     <!-- <h1 class="homey-text-bold homey-text-align-center">Uyuni lights.</h1> -->
 
+    <img src="icon.svg" id="logo" class="logo" alt="Logo" />
+
     <div class="switch-container">
       <md-switch icons selected id="lightSwitch"></md-switch>
       <h2 id="switchState">ON</h2>
@@ -23,6 +25,7 @@
         const containerElement = document.querySelector('.switch-container');
         const errorElement = document.getElementById('errorMessage');
         const bodyElement = document.querySelector('.homey-widget');
+        const logoElement = document.getElementById('logo');
         const $selectedDeviceId = Homey.getDeviceIds()[0];
 
         // Set background from settings and adjust text colors
@@ -30,10 +33,15 @@
         if (settings.background) {
           bodyElement.style.backgroundImage = `url('${settings.background}.png')`;
           
-          // Change text color for dark backgrounds
+          // Change text and logo color based on background
           if (settings.background === 'dark' || settings.background === 'wood') {
             stateElement.style.color = '#f3e5ab';
             errorElement.style.color = '#f3e5ab';
+            logoElement.style.filter = 'invert(91%) sepia(18%) saturate(239%) hue-rotate(358deg) brightness(103%) contrast(93%)';
+          } else if (settings.background === 'rustic') {
+            logoElement.style.filter = 'brightness(0)';
+          } else {
+            logoElement.style.filter = 'invert(91%) sepia(18%) saturate(239%) hue-rotate(358deg) brightness(103%) contrast(93%)';
           }
         }
 

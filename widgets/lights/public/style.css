@@ -7,6 +7,14 @@
     flex-direction: column;
 }
 
+.logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 10%;
+    max-width: 50px;
+}
+
 h1.homey-text-bold {
     margin: 0;
     padding: 10px;
