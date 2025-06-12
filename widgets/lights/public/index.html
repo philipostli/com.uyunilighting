@@ -1,7 +1,6 @@
 <html>
   <head>
     <link href="./style.css" rel="stylesheet">
-    <script src="./bundle.js"></script>
   </head>
   <body class="homey-widget homey-dark-mode">
 
@@ -10,8 +9,11 @@
     <img src="icon.svg" id="logo" class="logo" alt="Logo" />
 
     <div class="switch-container">
-      <md-switch icons selected id="lightSwitch"></md-switch>
-      <h2 id="switchState">ON</h2>
+      <div class="text-switch" id="textSwitch">
+        <span class="switch-text" id="onText">ON</span>
+        <span class="switch-separator">|</span>
+        <span class="switch-text" id="offText">OFF</span>
+      </div>
     </div>
 
     <div class="error-message" id="errorMessage">Please add a device</div>
@@ -20,8 +22,9 @@
       function onHomeyReady(Homey) {
         Homey.ready({ height: 150 });
 
-        const switchElement = document.getElementById('lightSwitch');
-        const stateElement = document.getElementById('switchState');
+        const textSwitch = document.getElementById('textSwitch');
+        const onText = document.getElementById('onText');
+        const offText = document.getElementById('offText');
         const containerElement = document.querySelector('.switch-container');
         const errorElement = document.getElementById('errorMessage');
         const bodyElement = document.querySelector('.homey-widget');
@@ -33,9 +36,8 @@
         if (settings.background) {
           bodyElement.style.backgroundImage = `url('${settings.background}.png')`;
           
-          // Change text and logo color based on background
+          // Change logo color based on background
           if (settings.background === 'dark' || settings.background === 'wood') {
-            stateElement.style.color = '#f3e5ab';
             errorElement.style.color = '#f3e5ab';
             logoElement.style.filter = 'invert(91%) sepia(18%) saturate(239%) hue-rotate(358deg) brightness(103%) contrast(93%)';
           } else if (settings.background === 'rustic') {
@@ -45,27 +47,33 @@
           }
         }
 
-        // Set initial state
-        stateElement.textContent = switchElement.selected ? 'ON' : 'OFF';
+        function updateSwitchState(isOn) {
+          if (isOn) {
+            onText.classList.add('active');
+            offText.classList.remove('active');
+          } else {
+            onText.classList.remove('active');
+            offText.classList.add('active');
+          }
+        }
 
-        // Listen for changes
-        switchElement.addEventListener('change', (e) => {
-          const isOn = e.target.selected;
-          stateElement.textContent = isOn ? 'ON' : 'OFF';
-          turnOn(isOn);
+        // Listen for clicks
+        textSwitch.addEventListener('click', () => {
+          const isCurrentlyOn = onText.classList.contains('active');
+          const newState = !isCurrentlyOn;
+          updateSwitchState(newState);
+          turnOn(newState);
         });
 
         function turnOn(state) {
           Homey.api('PUT', `/?deviceId=${$selectedDeviceId}`, { state })
             .then(result => {
               if (result.status !== 'ok') {
-                console.log('Error:', result.message);
                 containerElement.classList.add('hidden');
                 errorElement.classList.add('visible');
               }
             })
             .catch(error => {
-              console.error(error);
               containerElement.classList.add('hidden');
               errorElement.classList.add('visible');
             });
@@ -75,7 +83,6 @@
           Homey.api('GET', `/?deviceId=${$selectedDeviceId}`)
             .then(data => {
               if (data.status !== 'ok') {
-                console.log('Error:', data.message);
                 containerElement.classList.add('hidden');
                 errorElement.classList.add('visible');
                 return;
@@ -83,14 +90,9 @@
               
               containerElement.classList.remove('hidden');
               errorElement.classList.remove('visible');
-              const state = data.message;
-              if (switchElement.selected !== state) {
-                switchElement.selected = state;
-                stateElement.textContent = state ? 'ON' : 'OFF';
-              }
+              updateSwitchState(data.message);
             })
             .catch(error => {
-              console.error(error);
               containerElement.classList.add('hidden');
               errorElement.classList.add('visible');
             });
