@@ -1,8 +1,10 @@
+'use strict';
 const {RFDevice} = require('homey-rfdriver');
 import {DeviceService} from '../../lib/DeviceService';
 
 module.exports = class UyuniRemoteDevice extends RFDevice {
   deviceService!: DeviceService;
+  debugLog!: string[];
 
   static CAPABILITIES = {
     onoff: {
@@ -16,6 +18,7 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
   private async sendCommand(command: string) {
     await this.driver.cmd(command, { device: this });
   }
+  
 
   /**
    * onInit is called when the device is initialized.
@@ -24,8 +27,10 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
     this.log('UyuniRemoteDevice has been initialized');
 
     this.deviceService = new DeviceService(this.homey);
+    this.debugLog = [];
 
-    this.migrateCapabilities();
+    await this.migrateSettings();
+    await this.migrateCapabilities();
 
     this.registerCapabilityListener('onoff', async (state: boolean) => {
       if (state) {
@@ -49,6 +54,12 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
     })
   }
 
+  private async migrateSettings() {
+    // Initialize log setting if it doesn't exist
+    if (!this.getSettings().log) {
+      await this.setSettings({ log: '' });
+    }
+  }
   
   private async migrateCapabilities() {
     if (!this.hasCapability('meter_timer'))  await this.addCapability('meter_timer');
@@ -97,6 +108,30 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
   async onDeleted() {
     this.log('UyuniRemoteDevice has been deleted');
     this.deviceService.deleteTimer();
+  }
+
+    /**
+   * Push a logline onto the debug log visible to user
+   *
+   * @param {string} line - Line to log
+   */
+    protected logToDebug(line: string) {
+      this.debugLog.push(`[${new Date().toJSON()}] ${line}`);
+      if (this.debugLog.length > 50) this.debugLog.shift();
+      this.log(line);
+    }
+
+    /**
+   * Push current cache of debug log into the device settings view.
+   *
+   * This makes it visible to the user, but we don't want to constantly
+   * push data to the Homey settings module. We should trigger this function
+   * periodically.
+   */
+  protected updateDebugLog() {
+    this.setSettings({ log: this.debugLog.join('\n') }).catch((e: any) =>
+      this.error('Failed to update debug log', e),
+    );
   }
 
 

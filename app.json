@@ -150,7 +150,27 @@
           "template": "add_devices"
         }
       ],
-      "id": "uyuni-lights"
+      "id": "uyuni-lights",
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Troubleshooting",
+            "no": "Feilsøking"
+          },
+          "children": [
+            {
+              "id": "log",
+              "type": "textarea",
+              "label": {
+                "en": "Log",
+                "no": "Logg"
+              },
+              "value": "Empty"
+            }
+          ]
+        }
+      ]
     }
   ],
   "widgets": {
