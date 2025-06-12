@@ -25,7 +25,7 @@ h1.homey-text-bold {
 
 .switch-container {
     position: absolute;
-    left: 20px;
+    left: 15px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
@@ -51,22 +51,31 @@ h1.homey-text-bold {
     display: block;
 }
 
-md-switch {
-    --md-sys-color-primary: #a9ab90;
-    --md-sys-color-on-primary: #dfe2b4;
-    /* --md-switch-selected-icon-color: #000;
-    --md-switch-unselected-icon-color: #a9ab90; */
-    --md-switch-selected-hover-state-layer-color: #a9ab90;
-    --md-switch-selected-pressed-state-layer-color: #a9ab90;
-    --md-switch-selected-pressed-handle-color: #dfe2b4;
-    --md-switch-selected-hover-handle-color: #a9ab90;
-    --md-switch-selected-focus-handle-color: #dfe2b4;
-    --md-switch-unselected-hover-state-layer-color: #a9ab90;
-    --md-switch-unselected-pressed-state-layer-color: #a9ab90;
+.text-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 10px;
 }
 
-h2 {
-    margin: 0;
-    color: #000000;
-    font-size: 14px;
+.switch-text {
+    color: #636262;
+    transition: color 0.3s ease;
+}
+
+.switch-text.active {
+    color: #f3e5ab;
+}
+
+.switch-separator {
+    color: #f3e5ab;
+    margin: 0 5px;
 }
