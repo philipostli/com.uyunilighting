@@ -1,5 +1,5 @@
-'use strict';
-
+import sourceMapSupport from 'source-map-support';
+sourceMapSupport.install();
 import Homey from 'homey';
 import { DeviceService } from './lib/DeviceService';
 const UyuniRemoteDevice = require('./drivers/uyuni-lights/device');
