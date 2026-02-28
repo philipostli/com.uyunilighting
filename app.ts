@@ -16,7 +16,22 @@ module.exports = class MyApp extends Homey.App {
   uyuniSignal!: Homey.SignalInfrared; 
 
   private async sendCommand(command: string) {
-    await this.uyuniSignal.cmd(command);
+    const maxRetries = 3;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        await this.uyuniSignal.cmd(command);
+        return;
+      } catch (err: any) {
+        const isRetryable = err?.message?.includes('InfraredTransmitTimeout') ||
+          err?.message?.includes('Sent Too Many IR Commands') ||
+          err?.message?.includes('rmtIR');
+        if (attempt < maxRetries && isRetryable) {
+          await this.delay(500 * attempt);
+        } else {
+          throw err;
+        }
+      }
+    }
   }
 
   /**
@@ -30,12 +45,12 @@ module.exports = class MyApp extends Homey.App {
 
 
     this.homey.flow.getActionCard('turn-on').registerRunListener(async (args, state) => {
-      this.setOnOff(true);
+      await this.setOnOff(true);
       return; 
     })
 
     this.homey.flow.getActionCard('turn-off').registerRunListener(async (args, state) => {
-      this.setOnOff(false);
+      await this.setOnOff(false);
       return; 
     })
 
@@ -80,6 +95,10 @@ module.exports = class MyApp extends Homey.App {
     })
   }
 
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   private async setOnOff(setOn: boolean) {
     const devices: typeof UyuniRemoteDevice[] = this.homey.drivers.getDriver('uyuni-lights').getDevices();
     if (devices.length == 0) {
@@ -90,10 +109,10 @@ module.exports = class MyApp extends Homey.App {
     } else {
       devices.forEach(device => {
         device.setCapabilityValue('onoff', setOn);
-        device.triggerCapabilityListener('onoff', setOn);
         if (!setOn)
           device.setCapabilityValue('timer_4h', false);
-      })
+      });
+      await devices[0].triggerCapabilityListener('onoff', setOn);
     }
   }
 
@@ -101,18 +120,21 @@ module.exports = class MyApp extends Homey.App {
     const devices: typeof UyuniRemoteDevice[] = this.homey.drivers.getDriver('uyuni-lights').getDevices();
     if (devices.length == 0) {
       await this.sendCommand('POWER_ON');
+      await this.delay(500);
       await this.sendCommand(timer);
     } else {
       devices.forEach(device => {
         switch(timer) {
-          case Timers.TIMER_4H:            
+          case Timers.TIMER_4H:
             device.setCapabilityValue('timer_4h', true);
-            device.triggerCapabilityListener('timer_4h', true);
             break;
           default:
             break;
         }
-      })
+      });
+      if (timer === Timers.TIMER_4H && devices.length > 0) {
+        await devices[0].triggerCapabilityListener('timer_4h', true);
+      }
     }
   }
 

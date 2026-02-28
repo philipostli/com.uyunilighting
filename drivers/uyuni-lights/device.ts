@@ -15,8 +15,28 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
     dim_down: 'DIM_DOWN'
   }
 
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   private async sendCommand(command: string) {
-    await this.driver.cmd(command, { device: this });
+    const maxRetries = 3;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        await this.driver.cmd(command, { device: this });
+        return;
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : String(err);
+        const isRetryable = msg.includes('InfraredTransmitTimeout') ||
+          msg.includes('Sent Too Many IR Commands') ||
+          msg.includes('rmtIR');
+        if (attempt < maxRetries && isRetryable) {
+          await this.delay(500 * attempt);
+        } else {
+          throw err;
+        }
+      }
+    }
   }
   
 
@@ -46,7 +66,8 @@ module.exports = class UyuniRemoteDevice extends RFDevice {
     this.registerCapabilityListener('timer_4h', async (startTimer: boolean) => {
       const timerDuration = 4 * 60;
       if (startTimer) {
-        this.triggerCapabilityListener('onoff', true);
+        await this.triggerCapabilityListener('onoff', true);
+        await this.delay(500);
         await this.sendCommand('TIMER_4H');
         await this.deviceService.setTimer(timerDuration);
       } else
