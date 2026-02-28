@@ -38,5 +38,9 @@
   "1.4.3": {
     "en": "Added widget previews",
     "no": "Lagt til widget-forhåndsvisninger"
+  },
+  "1.4.4": {
+    "en": "Fixed issue with IR using multiple device setup",
+    "no": "Rettet en feil med IR ved oppsett av flere enheter samtidig"
   }
 }
