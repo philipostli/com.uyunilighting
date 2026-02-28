@@ -4,30 +4,39 @@
     "no": "Første utgave"
   },
   "1.1.2": {
-    "en": "Added timer"
+    "en": "Added timer",
+    "no": "Lagt til nedtelling"
   },
   "1.2.0": {
-    "en": "Added timer"
+    "en": "Added timer",
+    "no": "Lagt til nedtelling"
   },
   "1.2.1": {
-    "en": "Added timer - correction"
+    "en": "Added timer - correction",
+    "no": "Lagt til nedtelling - korreksjon"
   },
   "1.2.2": {
-    "en": "Fixed controlling lights without device added"
+    "en": "Fixed controlling lights without device added",
+    "no": "Fikset kontroll av lys uten enhet lagt til"
   },
   "1.3.0": {
-    "en": "Added satellite mode"
+    "en": "Added satellite mode",
+    "no": "Lagt til satellittmodus"
   },
   "1.3.1": {
-    "en": "Add as many remotes as you like"
+    "en": "Add as many remotes as you like",
+    "no": "Legg til så mange fjernkontroller som du vil"
   },
   "1.4.1": {
-    "en": "Adds dashboard to control a device. Choose from three different backgrounds."
+    "en": "Adds dashboard to control a device. Choose from three different backgrounds.",
+    "no": "Legger til instrumentbord for å kontrollere en enhet. Velg mellom tre forskjellige bakgrunner."
   },
   "1.4.2": {
-    "en": "Fixed switch"
+    "en": "Fixed switch",
+    "no": "Fikset dashboard knapp"
   },
   "1.4.3": {
-    "en": "Added widget previews"
+    "en": "Added widget previews",
+    "no": "Lagt til widget-forhåndsvisninger"
   }
 }
