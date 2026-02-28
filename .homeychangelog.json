@@ -42,5 +42,9 @@
   "1.4.4": {
     "en": "Fixed issue with IR using multiple device setup",
     "no": "Rettet en feil med IR ved oppsett av flere enheter samtidig"
+  },
+  "1.4.5": {
+    "en": "Fixed issue with IR using multiple device setup",
+    "no": "Rettet en feil med IR ved oppsett av flere enheter samtidig"
   }
 }
